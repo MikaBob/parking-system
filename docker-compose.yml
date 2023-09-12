@@ -42,12 +42,12 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./.devops/mysql/mysql-local.cnf:/etc/mysql/conf.d/my-local.cnf
+      - ./.devops/mysql/my-local.cnf:/etc/mysql/conf.d/my-local.cnf
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: parking_system
       MYSQL_USER: ps_backend_user
-      MYSQL_PASSWORD: ps_backend_user
+      MYSQL_PASSWORD: ps_backend_user_password
     logging:
       driver: "json-file"
       options:
