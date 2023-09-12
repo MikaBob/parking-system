@@ -1,0 +1,69 @@
+version: "3"
+
+services:
+
+  apache:
+    container_name: apache_2.4
+    image: httpd:2.4.57
+    working_dir: /srv/http/
+    ports:
+      - 80:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    volumes:
+      - ./src/:/srv/http/
+      - ./.devops/apache/vhost.conf:/usr/local/apache2/conf/vhost.conf
+    networks:
+      ps_network:
+        ipv4_address: 172.20.0.2
+
+  php:
+    container_name: php-fpm_8.1
+    image: bitnami/php-fpm:8.1.23
+    working_dir: /srv/http/
+    volumes:
+      - ./src/:/srv/http/
+      - .devops/php/php-local.ini:/opt/bitnami/php/etc/conf.d/php-local.ini
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    networks:
+      ps_network:
+        ipv4_address: 172.20.0.3
+
+  mysql:
+    container_name: mysql_8.1
+    image: mysql:8.1.0
+    ports:
+      - 3306:3306
+    volumes:
+      - ./.devops/mysql/mysql-local.cnf:/etc/mysql/conf.d/my-local.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: parking_system
+      MYSQL_USER: ps_backend_user
+      MYSQL_PASSWORD: ps_backend_user
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    networks:
+      ps_network:
+        ipv4_address: 172.20.0.4
+
+volumes:
+  mysql:
+
+networks:
+  ps_network:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.20.0.0/16
+         gateway: 172.20.0.1
