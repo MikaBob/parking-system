@@ -30,18 +30,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parking_system`.`street`
+-- Table `parking_system`.`parking_meter`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `parking_system`.`street` ;
+DROP TABLE IF EXISTS `parking_system`.`parking_meter` ;
 
-CREATE TABLE IF NOT EXISTS `parking_system`.`street` (
+CREATE TABLE IF NOT EXISTS `parking_system`.`parking_meter` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `zone_id` INT UNSIGNED NOT NULL,
-  `designation` VARCHAR(255) NOT NULL,
+  `street_name` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) INVISIBLE,
-  INDEX `fk_street_zone1_idx` (`zone_id` ASC) VISIBLE,
-  CONSTRAINT `fk_street_zone1`
+  INDEX `fk_parking_meter_zone1_idx` (`zone_id` ASC) VISIBLE,
+  CONSTRAINT `fk_parking_meter_zone1`
     FOREIGN KEY (`zone_id`)
     REFERENCES `parking_system`.`zone` (`id`)
     ON DELETE NO ACTION
@@ -56,19 +56,19 @@ DROP TABLE IF EXISTS `parking_system`.`violation` ;
 
 CREATE TABLE IF NOT EXISTS `parking_system`.`violation` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `street_id` INT UNSIGNED NOT NULL,
+  `parking_meter_id` INT UNSIGNED NOT NULL,
   `vehicule_plate` VARCHAR(50) NOT NULL,
   `fee_amount` INT UNSIGNED NOT NULL,
   `date_creation` DATETIME NOT NULL,
   `payment_status` ENUM('AWAITING_PAYMENT', 'PENDING_BANK', 'PAID') NOT NULL,
   `reason` VARCHAR(255) NOT NULL,
   `date_payment_due` DATETIME NOT NULL,
-  INDEX `fk_violation_street1_idx` (`street_id` ASC) VISIBLE,
+  INDEX `fk_violation_parking_meter1_idx` (`parking_meter_id` ASC) VISIBLE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  CONSTRAINT `fk_violation_street1`
-    FOREIGN KEY (`street_id`)
-    REFERENCES `parking_system`.`street` (`id`)
+  CONSTRAINT `fk_violation_parking_meter1`
+    FOREIGN KEY (`parking_meter_id`)
+    REFERENCES `parking_system`.`parking_meter` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -106,17 +106,17 @@ DROP TABLE IF EXISTS `parking_system`.`fee` ;
 
 CREATE TABLE IF NOT EXISTS `parking_system`.`fee` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `street_id` INT UNSIGNED NOT NULL,
+  `parking_meter_id` INT UNSIGNED NOT NULL,
   `vehicule_plate` VARCHAR(50) NOT NULL,
   `fee_amount` INT UNSIGNED NOT NULL,
   `date_creation` DATETIME NOT NULL,
   `date_end_validity` DATETIME NOT NULL,
-  INDEX `fk_fee_street1_idx` (`street_id` ASC) VISIBLE,
+  INDEX `fk_fee_parking_meter1_idx` (`parking_meter_id` ASC) VISIBLE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  CONSTRAINT `fk_fee_street1`
-    FOREIGN KEY (`street_id`)
-    REFERENCES `parking_system`.`street` (`id`)
+  CONSTRAINT `fk_fee_parking_meter1`
+    FOREIGN KEY (`parking_meter_id`)
+    REFERENCES `parking_system`.`parking_meter` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
