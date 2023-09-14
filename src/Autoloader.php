@@ -30,7 +30,6 @@ try {
     $dotenv->required([
         'APP_KEY',
         'APP_URL',
-        'DB_CONNECTION',
         'DB_HOST',
         'DB_PORT',
         'DB_DATABASE',

@@ -27,6 +27,8 @@ services:
     image: mysql:8.1.0
     ports:
       - 3306:3306
+    expose:
+      - 3306
     volumes:
       - ./.devops/mysql/my-local.cnf:/etc/my.cnf
     environment:

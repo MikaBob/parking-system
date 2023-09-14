@@ -3,9 +3,24 @@
 namespace ParkingSystem\Classes;
 
 class Request {
+    /**
+     * @var string
+     */
     private $method;
+
+    /**
+     * @var string
+     */
     private $controller;
+
+    /**
+     * @var string
+     */
     private $action;
+
+    /**
+     * @var string
+     */
     private $params;
 
     public function __construct($method, $controller, $action, $params){
