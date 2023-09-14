@@ -1,5 +1,8 @@
 {
     "require": {
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "doctrine/orm": "*",
+        "symfony/cache": "^6.3",
+        "doctrine/dbal": "^3.6"
     }
 }

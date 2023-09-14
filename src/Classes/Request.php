@@ -19,7 +19,7 @@ class Request {
     private $action;
 
     /**
-     * @var string
+     * @var array
      */
     private $params;
 

@@ -58,9 +58,9 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
             - [ ] POST fee
             - [ ] POST violation
         - [ ] Response in json/html
-        - [ ] Connect to DB
-            - [ ] Fetch data
-            - [ ] Insert data and prevent SQL injections
+        - [x] ~~Connect to DB~~
+            - [x] ~~Fetch data~~
+            - [x] ~~Insert data and prevent SQL injections~~
         - Authentication
             - [ ] JWT & Scope by zone
             - [ ] OAuth2 for operators

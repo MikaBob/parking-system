@@ -2,39 +2,35 @@
 
 namespace ParkingSystem\Model\Entity;
 
-use ParkingSystem\Model\Entity\FeeAbstract;
+use Doctrine\ORM\Mapping as ORM;
 
-class FeeEntity extends FeeAbstract implements \JsonSerializable {
+#[ORM\Entity]
+#[ORM\Table(name: 'fee')]
+class FeeEntity implements \JsonSerializable {
 
-    /**
-     * @var int
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int|null $id = null;
 
-    /**
-     * @var int
-     */
+    #[ORM\Column(type: 'integer')]
     private $parking_meter_id;
 
-    /**
-     * @var string
-     */
+    #[ORM\Column(type: 'string')]
     private $vehicule_plate;
 
-    /**
-     * @var int
-     */
+    #[ORM\Column(type: 'integer')]
     private $fee_amount;
 
-    /**
-     * @var string
-     */
+    #[ORM\Column(type: 'datetime')]
     private $date_creation;
 
-    /**
-     * @var string
-     */
+    #[ORM\Column(type: 'datetime')]
     private $date_end_validity;
+
+    public function __construct(){
+        $this->date_creation = new \DateTime();
+    }
 
     public function jsonSerialize(): mixed {
         return [
@@ -42,8 +38,8 @@ class FeeEntity extends FeeAbstract implements \JsonSerializable {
             'parking_meter_id' => $this->getParkingMeterId(),
             'vehicule_plate' => $this->getVehiculePlate(),
             'fee_amount' => $this->getFeeAmount(),
-            'date_creation' => $this->getDateCreation(),
-            'date_end_validity' => $this->getDateEndValidity()
+            'date_creation' => $this->getDateCreation()->format('c'),
+            'date_end_validity' => $this->getDateEndValidity()->format('c')
         ];
     }
 
@@ -51,7 +47,7 @@ class FeeEntity extends FeeAbstract implements \JsonSerializable {
     /**
      * Get the value of id
      */
-    public function getId() : int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -123,7 +119,7 @@ class FeeEntity extends FeeAbstract implements \JsonSerializable {
     /**
      * Get the value of date_creation
      */
-    public function getDateCreation() : string
+    public function getDateCreation() : \DateTime
     {
         return $this->date_creation;
     }
@@ -141,7 +137,7 @@ class FeeEntity extends FeeAbstract implements \JsonSerializable {
     /**
      * Get the value of date_end_validity
      */
-    public function getDateEndValidity() : string
+    public function getDateEndValidity() : \DateTime
     {
         return $this->date_end_validity;
     }
