@@ -35,7 +35,8 @@ So far there is only one route at '/' with GET or POST
 
 - Backend
     - [x] ~~Find a PHP framework for API (Routing, Authentication, Serialisation, Test, Auto-documentation)~~
-    - [x] ~~cry to make docker-container works~~
+    - [x] ~~Cry to make docker-container works~~
+    - [x] ~~Realise learning a new Framework is too long for the time I have~~
     - API
         - Create Routes
             - [ ] GET fee
