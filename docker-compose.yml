@@ -1,40 +1,24 @@
-version: "3"
+version: "3.8"
 
 services:
 
   apache:
     container_name: apache_2.4
-    image: httpd:2.4.57
-    working_dir: /srv/http/
-    ports:
-      - 80:80
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "1"
+    build:
+      context: .devops
+      dockerfile: apache/dockerfile
     volumes:
-      - ./src/:/srv/http/
-      - ./.devops/apache/vhost.conf:/usr/local/apache2/conf/vhost.conf
-    networks:
-      ps_network:
-        ipv4_address: 172.20.0.2
+      - ./src/:/srv/http/parking-system
+    ports:
+      - "80:80"
 
   php:
-    container_name: php-fpm_8.1
-    image: bitnami/php-fpm:8.1.23
-    working_dir: /srv/http/
+    container_name: php_8.2
+    build:
+      context: .devops
+      dockerfile: php/dockerfile
     volumes:
-      - ./src/:/srv/http/
-      - .devops/php/php-local.ini:/opt/bitnami/php/etc/conf.d/php-local.ini
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "1"
-    networks:
-      ps_network:
-        ipv4_address: 172.20.0.3
+      - ./src/:/srv/http/parking-system
 
   mysql:
     container_name: mysql_8.1
@@ -42,28 +26,12 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./.devops/mysql/my-local.cnf:/etc/mysql/conf.d/my-local.cnf
+      - ./.devops/mysql/my-local.cnf:/etc/my.cnf
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: parking_system
       MYSQL_USER: ps_backend_user
       MYSQL_PASSWORD: ps_backend_user_password
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "1"
-    networks:
-      ps_network:
-        ipv4_address: 172.20.0.4
 
 volumes:
   mysql:
-
-networks:
-  ps_network:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 172.20.0.0/16
-         gateway: 172.20.0.1
