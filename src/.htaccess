@@ -1,0 +1,12 @@
+RewriteEngine on
+DirectoryIndex index.php
+
+# All request are redirect to index.php
+RewriteCond %{REQUEST_URI} !^/$ [NC] # case insensitive
+RewriteRule ^(.+)$ index.php [L] # stop processing rules
+
+
+# Non existing files or directories are redirect to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ index.php [L] # stop processing rules

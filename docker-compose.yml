@@ -4,6 +4,7 @@ services:
 
   apache:
     container_name: apache_2.4
+    working_dir: /srv/http/parking-system
     build:
       context: .devops
       dockerfile: apache/dockerfile
@@ -14,6 +15,7 @@ services:
 
   php:
     container_name: php_8.2
+    working_dir: /srv/http/parking-system
     build:
       context: .devops
       dockerfile: php/dockerfile
