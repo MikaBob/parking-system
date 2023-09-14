@@ -10,7 +10,7 @@ services:
     volumes:
       - ./src/:/srv/http/parking-system
     ports:
-      - "80:80"
+      - 80:80
 
   php:
     container_name: php_8.2

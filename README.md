@@ -56,7 +56,7 @@ So far there is only one route at '/' with GET or POST
     - [ ] Create a Tag for MVP, and more for incremental development
     - [ ] Write SQL queries for reporting
     - [ ] Export Postman queries for each routes
-    - [ ] Prepare a script to fill database with some content (operators, streets, zones)
+    - [x] Prepare a script to fill database with some content (operators, streets, zones)
     - [ ] Update Readme
     - [ ] Delete everything and test from scratch
 

@@ -16,6 +16,24 @@ CREATE SCHEMA IF NOT EXISTS `parking_system` DEFAULT CHARACTER SET utf8 ;
 USE `parking_system` ;
 
 -- -----------------------------------------------------
+-- Table `parking_system`.`operator`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `parking_system`.`operator` ;
+
+CREATE TABLE IF NOT EXISTS `parking_system`.`operator` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(50) NOT NULL,
+  `salt` VARCHAR(255) NOT NULL,
+  `date_creation` DATETIME NOT NULL,
+  `is_active` TINYINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `parking_system`.`zone`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `parking_system`.`zone` ;
@@ -24,8 +42,10 @@ CREATE TABLE IF NOT EXISTS `parking_system`.`zone` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `hourly_fee` INT UNSIGNED NOT NULL,
   `daily_fee` INT UNSIGNED NOT NULL,
+  `zone_name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `zone_name_UNIQUE` (`zone_name` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -50,56 +70,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parking_system`.`violation`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `parking_system`.`violation` ;
-
-CREATE TABLE IF NOT EXISTS `parking_system`.`violation` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parking_meter_id` INT UNSIGNED NOT NULL,
-  `vehicule_plate` VARCHAR(50) NOT NULL,
-  `fee_amount` INT UNSIGNED NOT NULL,
-  `date_creation` DATETIME NOT NULL,
-  `payment_status` ENUM('AWAITING_PAYMENT', 'PENDING_BANK', 'PAID') NOT NULL,
-  `reason` VARCHAR(255) NOT NULL,
-  `date_payment_due` DATETIME NOT NULL,
-  INDEX `fk_violation_parking_meter1_idx` (`parking_meter_id` ASC) VISIBLE,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  CONSTRAINT `fk_violation_parking_meter1`
-    FOREIGN KEY (`parking_meter_id`)
-    REFERENCES `parking_system`.`parking_meter` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `parking_system`.`operator`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `parking_system`.`operator` ;
-
-CREATE TABLE IF NOT EXISTS `parking_system`.`operator` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `violation_id` INT UNSIGNED NOT NULL,
-  `username` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(50) NOT NULL,
-  `salt` VARCHAR(255) NOT NULL,
-  `date_creation` DATETIME NOT NULL,
-  `is_active` TINYINT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
-  INDEX `fk_operator_violation1_idx` (`violation_id` ASC) VISIBLE,
-  CONSTRAINT `fk_operator_violation1`
-    FOREIGN KEY (`violation_id`)
-    REFERENCES `parking_system`.`violation` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `parking_system`.`fee`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `parking_system`.`fee` ;
@@ -117,6 +87,38 @@ CREATE TABLE IF NOT EXISTS `parking_system`.`fee` (
   CONSTRAINT `fk_fee_parking_meter1`
     FOREIGN KEY (`parking_meter_id`)
     REFERENCES `parking_system`.`parking_meter` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `parking_system`.`violation`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `parking_system`.`violation` ;
+
+CREATE TABLE IF NOT EXISTS `parking_system`.`violation` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parking_meter_id` INT UNSIGNED NOT NULL,
+  `operator_id` INT UNSIGNED NOT NULL,
+  `vehicule_plate` VARCHAR(50) NOT NULL,
+  `fee_amount` INT UNSIGNED NOT NULL,
+  `date_creation` DATETIME NOT NULL,
+  `payment_status` ENUM('AWAITING_PAYMENT', 'PENDING_BANK', 'PAID') NOT NULL,
+  `reason` VARCHAR(255) NOT NULL,
+  `date_payment_due` DATETIME NOT NULL,
+  INDEX `fk_violation_parking_meter1_idx` (`parking_meter_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_violation_operator1_idx` (`operator_id` ASC) VISIBLE,
+  CONSTRAINT `fk_violation_parking_meter1`
+    FOREIGN KEY (`parking_meter_id`)
+    REFERENCES `parking_system`.`parking_meter` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_violation_operator1`
+    FOREIGN KEY (`operator_id`)
+    REFERENCES `parking_system`.`operator` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
