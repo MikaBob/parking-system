@@ -3,30 +3,32 @@
 namespace ParkingSystem\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ParkingSystem\Model\FeeRepository;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: FeeRepository::class)]
 #[ORM\Table(name: 'fee')]
-class FeeEntity implements \JsonSerializable {
+class FeeEntity extends AbstractEntity implements \JsonSerializable {
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private int|null $id = null;
 
-    #[ORM\Column(type: 'integer')]
-    private $parking_meter_id;
+    #[ORM\ManyToOne(targetEntity: ParkingMeterEntity::class, fetch:"EAGER")]
+    #[ORM\JoinColumn(name: 'parking_meter_id', referencedColumnName: 'id')]
+    private ParkingMeterEntity $parking_meter;
 
     #[ORM\Column(type: 'string')]
-    private $vehicule_plate;
+    private string $vehicule_plate;
 
     #[ORM\Column(type: 'integer')]
-    private $fee_amount;
+    private int $fee_amount;
 
     #[ORM\Column(type: 'datetime')]
-    private $date_creation;
+    private \DateTime $date_creation;
 
     #[ORM\Column(type: 'datetime')]
-    private $date_end_validity;
+    private \DateTime $date_end_validity;
 
     public function __construct(){
         $this->date_creation = new \DateTime();
@@ -35,7 +37,7 @@ class FeeEntity implements \JsonSerializable {
     public function jsonSerialize(): mixed {
         return [
             'id' => $this->getId(),
-            'parking_meter_id' => $this->getParkingMeterId(),
+            'parking_meter' => $this->getParkingMeter(),
             'vehicule_plate' => $this->getVehiculePlate(),
             'fee_amount' => $this->getFeeAmount(),
             'date_creation' => $this->getDateCreation()->format('c'),
@@ -53,29 +55,19 @@ class FeeEntity implements \JsonSerializable {
     }
 
     /**
-     * Set the value of id
+     * Get the value of parking_meter
      */
-    public function setId($id): self
+    public function getParkingMeter() : ParkingMeterEntity
     {
-        $this->id = $id;
-
-        return $this;
+        return $this->parking_meter;
     }
 
     /**
-     * Get the value of parking_meter_id
+     * Set the value of parking_meter
      */
-    public function getParkingMeterId() : int
+    public function setParkingMeter(ParkingMeterEntity $parking_meter): self
     {
-        return $this->parking_meter_id;
-    }
-
-    /**
-     * Set the value of parking_meter_id
-     */
-    public function setParkingMeterId($parking_meter_id): self
-    {
-        $this->parking_meter_id = $parking_meter_id;
+        $this->parking_meter = $parking_meter;
 
         return $this;
     }

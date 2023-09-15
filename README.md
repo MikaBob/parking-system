@@ -34,9 +34,9 @@ then a classic composer install
 
 # Usage
 
-So far there is only one route at '/fee/byplate' with GET
+There is an [export of Postman collection](https://github.com/MikaBob/parking-system/tree/main/parking-system.postman_collection.json)  of every available route and some of their usage.
 
-`curl --location --request GET 'http://localhost/fee/byplate/'`
+You just need to add a variable `{{base_url}}` with a value of `http://localhost`
 
 You can read a code explanation in [./src/README.md](https://github.com/MikaBob/parking-system/tree/main/src/README.md)
 
@@ -54,10 +54,10 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
     - [x] ~~Realise learning a new Framework is too long for the time I have~~
     - API
         - Create Routes
-            - [ ] GET fee
+            - [x] ~~GET fee~~
             - [ ] POST fee
             - [ ] POST violation
-        - [ ] Response in json/html
+        - [x] ~~Response in json~~
         - [x] ~~Connect to DB~~
             - [x] ~~Fetch data~~
             - [x] ~~Insert data and prevent SQL injections~~
@@ -67,7 +67,7 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
             - [ ] Prevent CSRF, spam
     - [ ] Write unit test
     - [ ] Write documentation
-    
+
 - Delivery
     - [ ] Create a Tag for MVP, and more for incremental development
     - [ ] Write SQL queries for reporting
@@ -82,6 +82,7 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
     - GPS coordinates of parking meter
     - Operator upload pictures as proof
     - Cache "GET fee" request but required invalidation upon new fees
+    - Cache request to zone's info
     - API versioning
     - Proper violation have extra info like tire position, more info about car (color, model, ...), article of law of violation, points for driving license, etc..
     - Add SSL 

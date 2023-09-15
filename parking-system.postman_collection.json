@@ -1,0 +1,83 @@
+{
+	"info": {
+		"_postman_id": "e5eb0e2d-4957-4f55-a493-f8b4e99b3bf7",
+		"name": "parking-system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27643015"
+	},
+	"item": [
+		{
+			"name": "public",
+			"item": [
+				{
+					"name": "Scan valid parking",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/fee/byzoneandplate/zone/A/plate/plate_A",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"fee",
+								"byzoneandplate",
+								"zone",
+								"A",
+								"plate",
+								"plate_A"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scan invalid parking",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"test\": \"something\",\r\n    \"object\": {\r\n        \"PI\": 3.14\r\n    },\r\n    \"array of ids\": [0,1,2,3,4,9]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/fee/byzoneandplate/zone/B/plate/plate_A",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"fee",
+								"byzoneandplate",
+								"zone",
+								"B",
+								"plate",
+								"plate_A"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

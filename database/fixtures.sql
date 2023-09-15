@@ -33,7 +33,8 @@ LOCK TABLES `fee` WRITE;
 INSERT INTO `fee`  (`parking_meter_id`, `vehicule_plate`, `fee_amount`, `date_creation`, `date_end_validity`) VALUES 
   (1, 'PLATE_A', 300, NOW(), DATE_ADD(NOW(), INTERVAL 1 HOUR)),
   (2, 'PLATE_B', 1200,NOW(), DATE_ADD(NOW(), INTERVAL 1 DAY)),
-  (9, 'PLATE_C', 150, NOW(), DATE_ADD(NOW(), INTERVAL 1 HOUR));
+  (9, 'PLATE_C', 150, NOW(), DATE_ADD(NOW(), INTERVAL 1 HOUR)),
+  (1, 'PLATE_A', 2800, NOW(), DATE_ADD(NOW(), INTERVAL 1 DAY));
 UNLOCK TABLES;
 
 LOCK TABLES `operator` WRITE;
