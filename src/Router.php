@@ -2,7 +2,7 @@
 
 namespace ParkingSystem;
 
-use ParkingSystem\Classes\Request as PSRequest;
+use ParkingSystem\Classes\Requests\Request;
 
 class Router {
 
@@ -24,7 +24,7 @@ class Router {
                     if (method_exists($fullQualifiedClassName, $request->getAction())) {
                         
                         $controller = new $fullQualifiedClassName();
-                        echo call_user_func([$controller, $request->getAction()], $request->getParams());
+                        echo call_user_func([$controller, $request->getAction()], $request);
                         return;
                     } 
                 }
@@ -47,7 +47,7 @@ class Router {
      * 
      * See src/Classes/Request.php
      */
-    private static function parseRequest() : PSRequest {
+    private static function parseRequest() : Request {
         $path = explode('/', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_SPECIAL_CHARS));
         $params = [];
 
@@ -62,12 +62,13 @@ class Router {
         }
 
         $httpMethod = filter_input( \INPUT_SERVER, 'REQUEST_METHOD', \FILTER_SANITIZE_SPECIAL_CHARS);
-
+        
         $controller = empty($path[1]) ? '' : ucfirst($path[1]);
         $action = empty($path[2]) ? '' : $httpMethod.$path[2];
         $params = $params;
+        $body = json_decode(file_get_contents('php://input'));
 
-        return new PSRequest($httpMethod, $controller, $action, $params);
+        return new Request($httpMethod, $controller, $action, $params, $body);
     }
 
     /**

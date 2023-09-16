@@ -3,15 +3,8 @@
 namespace ParkingSystem\Classes;
 
 class Response {
-    /**
-     * @var int
-     */
-    private $httpCode;
-
-    /**
-     * @var mixed
-     */
-    private $data;
+    private int $httpCode;
+    private mixed $data;
 
     public function __construct($httpCode, $data){
 

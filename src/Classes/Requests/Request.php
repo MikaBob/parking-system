@@ -1,29 +1,16 @@
 <?php
 
-namespace ParkingSystem\Classes;
+namespace ParkingSystem\Classes\Requests;
 
 class Request {
-    /**
-     * @var string
-     */
-    private $method;
+    
+    private string $method;
+    private string $controller;
+    private string $action;
+    private array|null  $params;
+    private mixed  $body;
 
-    /**
-     * @var string
-     */
-    private $controller;
-
-    /**
-     * @var string
-     */
-    private $action;
-
-    /**
-     * @var array
-     */
-    private $params;
-
-    public function __construct($method, $controller, $action, $params){
+    public function __construct($method, $controller, $action, $params, $body){
         if(!$this->checkHttpMethod($method)){
             throw new \Exception('Unhandled HTTP method: '.$method);
         }
@@ -32,6 +19,7 @@ class Request {
         $this->controller = $controller;
         $this->action = $action;
         $this->params = $params;
+        $this->body = $body;
     } 
 
     private function checkHttpMethod($httpMethod) : bool {
@@ -52,15 +40,6 @@ class Request {
         return $this->method;
     }
 
-    /**
-     * Set the value of method
-     */
-    public function setMethod($method): self
-    {
-        $this->method = $method;
-
-        return $this;
-    }
 
     /**
      * Get the value of controller
@@ -70,15 +49,6 @@ class Request {
         return $this->controller;
     }
 
-    /**
-     * Set the value of controller
-     */
-    public function setController($controller): self
-    {
-        $this->controller = $controller;
-
-        return $this;
-    }
 
     /**
      * Get the value of action
@@ -88,31 +58,20 @@ class Request {
         return $this->action;
     }
 
-    /**
-     * Set the value of action
-     */
-    public function setAction($action): self
-    {
-        $this->action = $action;
-
-        return $this;
-    }
 
     /**
      * Get the value of params
      */
-    public function getParams() : array
+    public function getParams() : ?array
     {
         return $this->params;
     }
 
     /**
-     * Set the value of params
+     * Get the value of body
      */
-    public function setParams($params): self
+    public function getBody() : mixed
     {
-        $this->params = $params;
-
-        return $this;
+        return $this->body;
     }
 }

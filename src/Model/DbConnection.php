@@ -9,7 +9,7 @@ use Doctrine\ORM\ORMSetup;
 
 class DbConnection {
 
-    private static $connection = null;
+    private static Connection|null $connection = null;
 
     public static function getDbConfig() : Configuration{
         return ORMSetup::createAttributeMetadataConfiguration([__DIR__.'/Entity'], true);
