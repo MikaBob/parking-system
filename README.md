@@ -45,8 +45,8 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
 - Database
     - [x] ~~Use database model to generate script~~
     - [x] ~~Rename "street" to "parking meter"~~
-    - [ ] Create proper indexes for each table
-    - [ ] Partition fees & violations
+    - [x] ~~Create proper indexes for each table~~
+    - [x] ~~Partition fees & violations~~
 
 - Backend
     - [x] ~~Find a PHP framework for API (Routing, Authentication, Serialisation, Test, Auto-documentation)~~

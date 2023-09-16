@@ -14,9 +14,8 @@ class FeeRepository extends AbstractEntityRepository {
             ->select('f')
             ->from(FeeEntity::class, 'f')
             ->innerJoin('f.parking_meter', 'pm')
-            ->innerJoin('pm.zone', 'z')
             ->andWhere('f.date_end_validity > :current_time')
-            ->andWhere('z.zone_name = :zone')
+            ->andWhere('f.zone_name = :zone')
             ->andWhere('f.vehicule_plate = :plate')
             ->orderBy('f.date_end_validity', 'DESC') // if we have several valid fees, get the latest valid first
         ;

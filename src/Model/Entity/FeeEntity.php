@@ -30,6 +30,9 @@ class FeeEntity extends AbstractEntity implements \JsonSerializable {
     #[ORM\Column(type: 'datetime')]
     private \DateTime $date_end_validity;
 
+    #[ORM\Column(type: 'string')]
+    private string $zone_name;
+
     public function __construct(){
         $this->date_creation = new \DateTime();
     }
@@ -41,7 +44,8 @@ class FeeEntity extends AbstractEntity implements \JsonSerializable {
             'vehicule_plate' => $this->getVehiculePlate(),
             'fee_amount' => $this->getFeeAmount(),
             'date_creation' => $this->getDateCreation()->format('c'),
-            'date_end_validity' => $this->getDateEndValidity()->format('c')
+            'date_end_validity' => $this->getDateEndValidity()->format('c'),
+            'zone_name' => $this->getZoneName()
         ];
     }
 
@@ -140,6 +144,30 @@ class FeeEntity extends AbstractEntity implements \JsonSerializable {
     public function setDateEndValidity($date_end_validity): self
     {
         $this->date_end_validity = $date_end_validity;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of zone_name
+     *
+     * @return string
+     */
+    public function getZoneName(): string
+    {
+        return $this->zone_name;
+    }
+
+    /**
+     * Set the value of zone_name
+     *
+     * @param string $zone_name
+     *
+     * @return self
+     */
+    public function setZoneName(string $zone_name): self
+    {
+        $this->zone_name = $zone_name;
 
         return $this;
     }

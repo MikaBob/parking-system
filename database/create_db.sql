@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `parking_system`.`zone` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `hourly_fee` INT UNSIGNED NOT NULL,
   `daily_fee` INT UNSIGNED NOT NULL,
-  `zone_name` VARCHAR(50) NOT NULL,
+  `zone_name` ENUM('A', 'B', 'C', 'D') NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `zone_name_UNIQUE` (`zone_name` ASC) VISIBLE)
@@ -81,9 +81,11 @@ CREATE TABLE IF NOT EXISTS `parking_system`.`fee` (
   `fee_amount` INT UNSIGNED NOT NULL,
   `date_creation` DATETIME NOT NULL,
   `date_end_validity` DATETIME NOT NULL,
-  INDEX `fk_fee_parking_meter1_idx` (`parking_meter_id` ASC) VISIBLE,
+  `zone_name` ENUM('A', 'B', 'C', 'D') NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) INVISIBLE,
+  INDEX `idx_vehicule_plate_zone_name` (`zone_name` ASC, `vehicule_plate` ASC) VISIBLE,
+  INDEX `fk_fee_parking_meter1_idx` (`parking_meter_id` ASC) VISIBLE,
   CONSTRAINT `fk_fee_parking_meter1`
     FOREIGN KEY (`parking_meter_id`)
     REFERENCES `parking_system`.`parking_meter` (`id`)
@@ -122,6 +124,38 @@ CREATE TABLE IF NOT EXISTS `parking_system`.`violation` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `parking_system`.`archive_fee`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `parking_system`.`archive_fee` ;
+
+CREATE TABLE IF NOT EXISTS `parking_system`.`archive_fee` (
+  `uuid` BINARY(16) NOT NULL,
+  `date_creation` DATETIME NOT NULL,
+  `vehicule_plate` VARCHAR(50) NOT NULL,
+  `fee_amount` INT UNSIGNED NOT NULL,
+  `zone_name` ENUM('A', 'B', 'C', 'D') NOT NULL,
+  PRIMARY KEY (`uuid`, `date_creation`))
+ENGINE = InnoDB PARTITION BY RANGE(YEAR(date_creation)) PARTITIONS 6( PARTITION part0 VALUES LESS THAN (2018),  PARTITION part1 VALUES LESS THAN (2019),  PARTITION part2 VALUES LESS THAN (2020),  PARTITION part3 VALUES LESS THAN (2021),  PARTITION part4 VALUES LESS THAN (2022),  PARTITION part5 VALUES LESS THAN (MAXVALUE)) ;
+
+
+-- -----------------------------------------------------
+-- Table `parking_system`.`archive_violation`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `parking_system`.`archive_violation` ;
+
+CREATE TABLE IF NOT EXISTS `parking_system`.`archive_violation` (
+  `uuid` BINARY(16) NOT NULL,
+  `date_creation` DATETIME NOT NULL,
+  `vehicule_plate` VARCHAR(50) NOT NULL,
+  `operator_id` INT UNSIGNED NOT NULL,
+  `fee_amount` INT UNSIGNED NOT NULL,
+  `zone_name` ENUM('A', 'B', 'C', 'D') NOT NULL,
+  PRIMARY KEY (`uuid`, `date_creation`),
+  INDEX `idx_zone_name_vehicule_plate` (`zone_name` ASC, `vehicule_plate` ASC) VISIBLE)
+ENGINE = InnoDB PARTITION BY RANGE(YEAR(date_creation)) PARTITIONS 6( PARTITION part0 VALUES LESS THAN (2018),  PARTITION part1 VALUES LESS THAN (2019),  PARTITION part2 VALUES LESS THAN (2020),  PARTITION part3 VALUES LESS THAN (2021),  PARTITION part4 VALUES LESS THAN (2022),  PARTITION part5 VALUES LESS THAN (MAXVALUE)) ;
 
 SET SQL_MODE = '';
 DROP USER IF EXISTS ps_backend_user;
