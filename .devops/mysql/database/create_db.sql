@@ -109,18 +109,18 @@ CREATE TABLE IF NOT EXISTS `parking_system`.`violation` (
   `payment_status` ENUM('AWAITING_PAYMENT', 'PENDING_BANK', 'PAID') NOT NULL,
   `reason` VARCHAR(255) NOT NULL,
   `date_payment_due` DATETIME NOT NULL,
-  INDEX `fk_violation_parking_meter1_idx` (`parking_meter_id` ASC) VISIBLE,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) INVISIBLE,
   INDEX `fk_violation_operator1_idx` (`operator_id` ASC) VISIBLE,
-  CONSTRAINT `fk_violation_parking_meter1`
-    FOREIGN KEY (`parking_meter_id`)
-    REFERENCES `parking_system`.`parking_meter` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_violation_parking_meter1_idx` (`parking_meter_id` ASC) VISIBLE,
   CONSTRAINT `fk_violation_operator1`
     FOREIGN KEY (`operator_id`)
     REFERENCES `parking_system`.`operator` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_violation_parking_meter1`
+    FOREIGN KEY (`parking_meter_id`)
+    REFERENCES `parking_system`.`parking_meter` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

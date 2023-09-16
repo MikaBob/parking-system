@@ -21,7 +21,11 @@ class ParkingMeterEntity implements \JsonSerializable {
     private string $street_name;
 
     public function jsonSerialize(): mixed {
-        return json_encode($this);
+        return [
+            'id' => $this->getId(),
+            'zone' => $this->getZone()->jsonSerialize(),
+            'street_name' => $this->getStreetName(),
+        ];
     }
 
 

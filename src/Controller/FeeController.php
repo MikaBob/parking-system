@@ -88,8 +88,10 @@ class FeeController extends BaseController {
             $fee->setVehiculePlate($request->getPlate());
             $fee->setFeeAmount($request->getAmount());
             $fee->setDateEndValidity($request->getEndValidity());
+
             $this->entityManager->persist($fee);
             $this->entityManager->flush();
+
         } catch(\Exception $e){
             // @todo log exception to log aggregator (invalid fee)
             //var_dump($e);
@@ -97,7 +99,7 @@ class FeeController extends BaseController {
         }
 
         return (new Response(200, [
-            $fee->getId()
+            $fee->jsonSerialize()
         ]))->toJSON();
     }
 

@@ -4,6 +4,7 @@ namespace ParkingSystem\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ParkingSystem\Model\FeeRepository;
+use ParkingSystem\Classes\Enums\ZoneEnum;
 
 #[ORM\Entity(repositoryClass: FeeRepository::class)]
 #[ORM\Table(name: 'fee')]
@@ -30,8 +31,8 @@ class FeeEntity extends AbstractEntity implements \JsonSerializable {
     #[ORM\Column(type: 'datetime')]
     private \DateTime $date_end_validity;
 
-    #[ORM\Column(type: 'string')]
-    private string $zone_name;
+    #[ORM\Column(type: 'string', enumType: ZoneEnum::class)]
+    private ZoneEnum $zone_name;
 
     public function __construct(){
         $this->date_creation = new \DateTime();
@@ -151,9 +152,9 @@ class FeeEntity extends AbstractEntity implements \JsonSerializable {
     /**
      * Get the value of zone_name
      *
-     * @return string
+     * @return ZoneEnum
      */
-    public function getZoneName(): string
+    public function getZoneName(): ZoneEnum
     {
         return $this->zone_name;
     }
@@ -161,11 +162,11 @@ class FeeEntity extends AbstractEntity implements \JsonSerializable {
     /**
      * Set the value of zone_name
      *
-     * @param string $zone_name
+     * @param ZoneEnum $zone_name
      *
      * @return self
      */
-    public function setZoneName(string $zone_name): self
+    public function setZoneName(ZoneEnum $zone_name): self
     {
         $this->zone_name = $zone_name;
 
