@@ -1,4 +1,3 @@
 [mysqld]
 performance_schema=ON
-max_connection=150
 max_allowed_packet=1073741824

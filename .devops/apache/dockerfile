@@ -1,5 +1,5 @@
 FROM httpd:2.4-alpine
 
-COPY apache/parking-system.conf /usr/local/apache2/conf/parking-system.conf
+COPY parking-system.conf /usr/local/apache2/conf/parking-system.conf
 RUN echo "Include /usr/local/apache2/conf/parking-system.conf" \
     >> /usr/local/apache2/conf/httpd.conf

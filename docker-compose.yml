@@ -6,8 +6,7 @@ services:
     container_name: apache_2.4
     working_dir: /srv/http/parking-system
     build:
-      context: .devops
-      dockerfile: apache/dockerfile
+      context: .devops/apache
     volumes:
       - ./src/:/srv/http/parking-system
     ports:
@@ -17,20 +16,18 @@ services:
     container_name: php_8.2
     working_dir: /srv/http/parking-system
     build:
-      context: .devops
-      dockerfile: php/dockerfile
+      context: .devops/php
     volumes:
       - ./src/:/srv/http/parking-system
 
   mysql:
     container_name: mysql_8.1
-    image: mysql:8.1.0
+    build:
+      context: .devops/mysql
     ports:
       - 3306:3306
     expose:
       - 3306
-    volumes:
-      - ./.devops/mysql/my-local.cnf:/etc/my.cnf
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: parking_system

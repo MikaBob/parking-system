@@ -1,0 +1,6 @@
+FROM mysql:8.1.0
+
+COPY my-local.cnf /etc/my.cnf
+RUN chmod 755 /etc/my.cnf
+COPY database/create_db.sql /docker-entrypoint-initdb.d/
+COPY database/fixtures.sql /docker-entrypoint-initdb.d/

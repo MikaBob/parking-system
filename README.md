@@ -6,31 +6,15 @@ It starts like any GitHub projects :relaxed:
 
 2. `cd parking-system`
 
-## Docker
-Fetch images, we are using php8, mysql8 and apache2.4
+And then everything will be set up for a local environment with Docker
 
-3. `docker-compose pull`
+3. `docker-compose up -d --build`
 
-4. `docker-compose up -d --build`
+The rest is a typicall copying the .env file (prefilled for local values) and installing libraries
 
-## Database
-There is the database model and its creation script. For the first installation, run the following command to execute this script
+4. `cp ./src/.env.local ./src/.env`
 
-5. `docker exec -i mysql_8.1 mysql -uroot -proot < ./database/create_db.sql`
-
-Then we add some fixtures
-
-6. `docker exec -i mysql_8.1 mysql -uroot -proot < ./database/fixtures.sql`
-
-## Composer & .env
-
-You know the drill :grin:, copy the .env.local to .env (you do not need to edit the .env for a local execution)
-
-7. `docker exec -i php_8.2 cp .env.local .env`
-
-then a classic composer install
-
-8. `docker exec -i php_8.2 composer install`
+5. `docker exec -i php_8.2 composer install`
 
 # Usage
 
