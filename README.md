@@ -20,7 +20,11 @@ The rest is a typicall copying the .env file (prefilled for local values) and in
 
 There is an [export of Postman collection](https://github.com/MikaBob/parking-system/tree/main/parking-system.postman_collection.json)  of every available route and some of their usage.
 
-You just need to add a variable `{{base_url}}` with a value of `http://localhost`
+As a driver, you can add a new parking ticket with "POST Park here".
+
+Then you can test if your car's plate is in the system with the "GET Scan valid parking".
+
+Later, the ticke twil be invalid once the ticket's validity will be passed.
 
 You can read a code explanation in [./src/README.md](https://github.com/MikaBob/parking-system/tree/main/src/README.md)
 
@@ -39,7 +43,7 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
     - API
         - Create Routes
             - [x] ~~GET fee~~
-            - [ ] POST fee
+            - [x] ~~POST fee~~
             - [ ] POST violation
         - [x] ~~Response in json~~
         - [x] ~~Connect to DB~~
@@ -53,7 +57,7 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
     - [ ] Write documentation
 
 - Delivery
-    - [ ] Create a Tag for MVP, and more for incremental development
+    - [x] ~~Create a Tag for MVP~~, and more for incremental development
     - [ ] Write SQL queries for reporting
     - [ ] Export Postman queries for each routes
     - [x] Prepare a script to fill database with some content (operators, streets, zones)

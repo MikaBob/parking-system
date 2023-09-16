@@ -10,22 +10,48 @@
 			"name": "public",
 			"item": [
 				{
-					"name": "Scan valid parking",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "Park at zone",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"plate\": \"PLATE_Z\",\r\n    \"parking_meter_id\": 1,\r\n    \"amount\": 400,\r\n    \"end_validity\": \"{{current_timestamp_plus_1hour}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
+						"url": {
+							"raw": "{{base_url}}/fee/parkhere",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"fee",
+								"parkhere"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scan valid parking",
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/fee/byzoneandplate/zone/A/plate/plate_A",
 							"host": [
@@ -53,7 +79,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"test\": \"something\",\r\n    \"object\": {\r\n        \"PI\": 3.14\r\n    },\r\n    \"array of ids\": [0,1,2,3,4,9]\r\n}",
+							"raw": "{\r\n    \"plate\": \"PLATE_A\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -61,7 +87,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/fee/byzoneandplate/zone/B/plate/plate_A",
+							"raw": "{{base_url}}/fee/byzoneandplate/zone/B",
 							"host": [
 								"{{base_url}}"
 							],
@@ -69,15 +95,46 @@
 								"fee",
 								"byzoneandplate",
 								"zone",
-								"B",
-								"plate",
-								"plate_A"
+								"B"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"let moment = require('moment');",
+					"",
+					"let current_timestamp = moment().toISOString();",
+					"let in_one_hour = moment().add(1, 'hours').toISOString();;",
+					"",
+					"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp);",
+					"postman.setEnvironmentVariable(\"current_timestamp_plus_1hour\", in_one_hour);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost",
+			"type": "string"
 		}
 	]
 }

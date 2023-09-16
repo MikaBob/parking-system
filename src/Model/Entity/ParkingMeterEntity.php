@@ -44,7 +44,7 @@ class ParkingMeterEntity implements \JsonSerializable {
     /**
      * Set the value of zone
      */
-    public function setZone($zone_id): self
+    public function setZone($zone): self
     {
         $this->zone = $zone;
 

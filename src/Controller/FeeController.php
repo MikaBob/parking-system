@@ -7,7 +7,9 @@ use ParkingSystem\Classes\Requests\RequestFactory;
 use ParkingSystem\Classes\Requests\RequestFeeByZoneAndPlate;
 use ParkingSystem\Classes\Requests\RequestParkHere;
 use ParkingSystem\Classes\Response;
+use ParkingSystem\Classes\ResponseBadRequest;
 use ParkingSystem\Model\Entity\FeeEntity;
+use ParkingSystem\Model\Entity\ParkingMeterEntity;
 use ParkingSystem\Model\Entity\ZoneEntity;
 use ParkingSystem\Model\FeeRepository;
 
@@ -20,9 +22,7 @@ class FeeController extends BaseController {
         $request = RequestFactory::build(RequestFeeByZoneAndPlate::class, $request);
 
         if(!$request->getZone() || !$request->getPlate()) {
-            return (new Response(400, [
-                "error" => "400: Bad request"
-            ]))->toJSON();
+            return (new ResponseBadRequest())->toJSON();
         }
 
         $validFees = $this->getRepository()->getFeesForZoneAndPlate(
@@ -43,11 +43,61 @@ class FeeController extends BaseController {
 
         $zoneRepo = $this->getEntityRepository(ZoneEntity::class);
         $zone = $zoneRepo->findOneBy(['zone_name' => $request->getZone()]);
+
+        if(!$zone){
+            // @todo log exception to log aggregator (unknowned zone)
+            //var_dump($e);
+            return (new ResponseBadRequest())->toJSON();
+        }
+
         return (new Response(200, [
             "valid" => false,
             "fine_amount" => $zone->getDailyFee(),
             "vehicule_plate" => $request->getPlate(),
             "zone" => $zone->getZoneName()
+        ]))->toJSON();
+    }
+
+    /**
+     * POST /fee/parkhere/
+     */
+    public function POSTparkhere(Request $request) : string {
+        $request = RequestFactory::build(RequestParkHere::class, $request);
+
+        if(!$request->getParkingMeterId()
+            || !$request->getPlate() 
+            || !$request->getAmount()
+            || !$request->getEndValidity()
+        ) {
+            return (new ResponseBadRequest())->toJSON();
+        }
+
+        try{
+            $parkingMeterRepo = $this->getEntityRepository(ParkingMeterEntity::class);
+            $parkingMeter = $parkingMeterRepo->find($request->getParkingMeterId());
+
+            if(!$parkingMeter){
+                // @todo log exception to log aggregator (unknowned parking meter)
+                //var_dump($e);
+                return (new ResponseBadRequest())->toJSON();
+            }
+
+            $fee = new FeeEntity();
+            $fee->setParkingMeter($parkingMeter);
+            $fee->setZoneName($parkingMeter->getZone()->getZoneName());
+            $fee->setVehiculePlate($request->getPlate());
+            $fee->setFeeAmount($request->getAmount());
+            $fee->setDateEndValidity($request->getEndValidity());
+            $this->entityManager->persist($fee);
+            $this->entityManager->flush();
+        } catch(\Exception $e){
+            // @todo log exception to log aggregator (invalid fee)
+            //var_dump($e);
+            return (new ResponseBadRequest())->toJSON();
+        }
+
+        return (new Response(200, [
+            $fee->getId()
         ]))->toJSON();
     }
 
