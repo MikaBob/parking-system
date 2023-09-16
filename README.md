@@ -22,9 +22,11 @@ There is an [export of Postman collection](https://github.com/MikaBob/parking-sy
 
 As a driver, you can add a new parking ticket with "POST Park here".
 
-Then you can test if your car's plate is in the system with the "GET Scan valid parking".
+As oeprator you can check if the car's plate is in the system with the "GET Scan valid parking".
 
-Later, the ticke twil be invalid once the ticket's validity will be passed.
+Later, the ticket will be invalid once the ticket's validity will be passed. There is an extra prepared request "Get Scan invalid parking". The response will have enough informations for the operator to validate the ticket.
+
+When an operator wants to print a violation ticket, the device will call "POST Generate ticket" and will reply with the ticket confirmation and print the ticket.
 
 You can read a code explanation in [./src/README.md](https://github.com/MikaBob/parking-system/tree/main/src/README.md)
 
@@ -44,7 +46,7 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
         - Create Routes
             - [x] ~~GET fee~~
             - [x] ~~POST fee~~
-            - [ ] POST violation
+            - [x] ~~POST violation~~
         - [x] ~~Response in json~~
         - [x] ~~Connect to DB~~
             - [x] ~~Fetch data~~
@@ -59,8 +61,8 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
 - Delivery
     - [x] ~~Create a Tag for MVP~~, and more for incremental development
     - [ ] Write SQL queries for reporting
-    - [ ] Export Postman queries for each routes
-    - [x] Prepare a script to fill database with some content (operators, streets, zones)
+    - [x] ~~Export Postman queries for each routes~~
+    - [x] ~~Prepare a script to fill database with some content (operators, streets, zones)~~
     - [ ] Update Readme
     - [ ] Delete everything and test from scratch
 

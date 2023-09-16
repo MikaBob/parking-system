@@ -10,7 +10,7 @@
 			"name": "public",
 			"item": [
 				{
-					"name": "Park at zone",
+					"name": "Park here",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -53,7 +53,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/fee/byzoneandplate/zone/A/plate/plate_A",
+							"raw": "{{base_url}}/fee/byzoneandplate/zone/A/plate/plate_Z",
 							"host": [
 								"{{base_url}}"
 							],
@@ -63,7 +63,7 @@
 								"zone",
 								"A",
 								"plate",
-								"plate_A"
+								"plate_Z"
 							]
 						}
 					},
@@ -96,6 +96,33 @@
 								"byzoneandplate",
 								"zone",
 								"B"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate violation ticket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parking_meter_id\": 2,\r\n    \"plate\": \"PLATE_Y\",\r\n    \"reason\": \"You were parked without valid ticket for more than 1h\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/violation/generateTicket",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"violation",
+								"generateTicket"
 							]
 						}
 					},
