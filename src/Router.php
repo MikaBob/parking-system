@@ -48,7 +48,7 @@ class Router {
      * See src/Classes/Request.php
      */
     private static function parseRequest() : Request {
-        $path = explode('/', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_SPECIAL_CHARS));
+        $path = explode('/', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
         $params = [];
 
         // If there are params in the url, after the action

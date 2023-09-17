@@ -20,15 +20,59 @@ The rest is a typicall copying the .env file (prefilled for local values) and in
 
 There is an [export of Postman collection](https://github.com/MikaBob/parking-system/tree/main/parking-system.postman_collection.json)  of every available route and some of their usage.
 
-As a driver, you can add a new parking ticket with "POST Park here".
 
-As oeprator you can check if the car's plate is in the system with the "GET Scan valid parking".
+## POST /fee/parkhere
 
-Later, the ticket will be invalid once the ticket's validity will be passed. There is an extra prepared request "Get Scan invalid parking". The response will have enough informations for the operator to validate the ticket.
+As a driver, you can create a new parking ticket. Request body:
+
+```JSON
+{
+    "plate": "PLATE_Z",
+    "parking_meter_id": 1,
+    "amount": 400,
+    "end_validity": "{{current_timestamp_plus_1hour}}"
+}
+```
+
+## GET /fee/byzoneandplate/zone/A/plate/plate_z (Scan valid parking)
+
+As an operator you can check if the car's plate is in the system. Either with extra parameters in the URL, or in the request's body:
+
+```JSON
+{
+    "zone": "A",
+    "plate": "PLATE_A"
+}
+```
+
+## GET /fee/byzoneandplate/zone/b/plate/plate_a (Scan invalid parking)
+
+Later, the operator can scan the plate again when the ticket's validity will be invalid. Same as the previous call, but this time there is no valid ticket for this plate number, the answer will be different
+
+```JSON
+{
+    "zone": "B",
+    "plate": "PLATE_A"
+}
+```
+
+## POST /violation/generateTicket
 
 When an operator wants to print a violation ticket, the device will call "POST Generate ticket" and will reply with the ticket confirmation and print the ticket.
 
+```JSON
+{
+    "parking_meter_id": 2,
+    "plate": "PLATE_Y",
+    "reason": "You were parked without valid ticket for more than 1h"
+}
+```
+
 You can read a code explanation in [./src/README.md](https://github.com/MikaBob/parking-system/tree/main/src/README.md)
+
+## Tests
+
+Running `docker exec -i php_8.2 composer test` will execute the *some* unit tests. So far there are two tests only, one for the Router, and one Controller.
 
 # Backlog
 
@@ -43,7 +87,7 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
     - [x] ~~Cry to make docker-container works~~
     - [x] ~~Realise learning a new Framework is too long for the time I have~~
     - API
-        - Create Routes
+        - ~~Create Routes~~
             - [x] ~~GET fee~~
             - [x] ~~POST fee~~
             - [x] ~~POST violation~~
@@ -55,7 +99,7 @@ You can read a code explanation in [./src/README.md](https://github.com/MikaBob/
             - [ ] JWT & Scope by zone
             - [ ] OAuth2 for operators
             - [ ] Prevent CSRF, spam
-    - [ ] Write unit test
+    - [x] ~~Write unit test~~
     - [ ] Write documentation
 
 - Delivery

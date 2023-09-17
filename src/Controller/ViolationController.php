@@ -51,9 +51,4 @@ class ViolationController extends BaseController {
             $violation->jsonSerialize(),
         ]))->toJSON();
     }
-
-    private function getRepository() : FeeRepository {
-        return $this->getEntityRepository(FeeEntity::class);
-    }
-
 }
