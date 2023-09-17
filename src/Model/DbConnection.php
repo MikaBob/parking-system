@@ -12,7 +12,9 @@ class DbConnection {
     private static Connection|null $connection = null;
 
     public static function getDbConfig() : Configuration{
-        return ORMSetup::createAttributeMetadataConfiguration([__DIR__.'/Entity'], true);
+        $config = ORMSetup::createAttributeMetadataConfiguration([__DIR__.'/Entity'], true);
+        $config->setProxyDir('/tmp/php/doctrine/');
+        return $config;
     }
     
     public static function getDbConnection() : Connection {

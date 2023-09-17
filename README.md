@@ -100,15 +100,15 @@ Running `docker exec -i php_8.2 composer test` will execute the *some* unit test
             - [ ] OAuth2 for operators
             - [ ] Prevent CSRF, spam
     - [x] ~~Write unit test~~
-    - [ ] Write documentation
+    - [x] ~~Write documentation~~
 
 - Delivery
     - [x] ~~Create a Tag for MVP~~, and more for incremental development
     - [ ] Write SQL queries for reporting
     - [x] ~~Export Postman queries for each routes~~
     - [x] ~~Prepare a script to fill database with some content (operators, streets, zones)~~
-    - [ ] Update Readme
-    - [ ] Delete everything and test from scratch
+    - [x] ~~Update Readme~~
+    - [x] ~~Delete everything and test from scratch~~
 
 - Good to have
     - Add resource for "GET parking meter" to retrieve info for parking meter. QR code / parking meter id

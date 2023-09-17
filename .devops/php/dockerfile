@@ -15,3 +15,7 @@ RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# should create a user, a group, and give rights to this folder
+RUN mkdir -p /tmp/php/doctrine/ 
+RUN chmod 777 /tmp/php/ -R
