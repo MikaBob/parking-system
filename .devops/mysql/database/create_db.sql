@@ -137,7 +137,9 @@ CREATE TABLE IF NOT EXISTS `parking_system`.`archive_fee` (
   `vehicule_plate` VARCHAR(50) NOT NULL,
   `fee_amount` INT UNSIGNED NOT NULL,
   `zone_name` ENUM('A', 'B', 'C', 'D') NOT NULL,
-  PRIMARY KEY (`uuid`, `date_creation`))
+  PRIMARY KEY (`uuid`, `date_creation`),
+  INDEX `idx_date_creation` (`date_creation` ASC) VISIBLE,
+  INDEX `idx_zone_name_vehicule_plate` (`zone_name` ASC, `vehicule_plate` ASC) VISIBLE)
 ENGINE = InnoDB PARTITION BY RANGE(YEAR(date_creation)) PARTITIONS 6( PARTITION part0 VALUES LESS THAN (2018),  PARTITION part1 VALUES LESS THAN (2019),  PARTITION part2 VALUES LESS THAN (2020),  PARTITION part3 VALUES LESS THAN (2021),  PARTITION part4 VALUES LESS THAN (2022),  PARTITION part5 VALUES LESS THAN (MAXVALUE)) ;
 
 
@@ -154,7 +156,8 @@ CREATE TABLE IF NOT EXISTS `parking_system`.`archive_violation` (
   `fee_amount` INT UNSIGNED NOT NULL,
   `zone_name` ENUM('A', 'B', 'C', 'D') NOT NULL,
   PRIMARY KEY (`uuid`, `date_creation`),
-  INDEX `idx_zone_name_vehicule_plate` (`zone_name` ASC, `vehicule_plate` ASC) VISIBLE)
+  INDEX `idx_zone_name_vehicule_plate` (`zone_name` ASC, `vehicule_plate` ASC) VISIBLE,
+  INDEX `idx_date_creation` (`date_creation` ASC) VISIBLE)
 ENGINE = InnoDB PARTITION BY RANGE(YEAR(date_creation)) PARTITIONS 6( PARTITION part0 VALUES LESS THAN (2018),  PARTITION part1 VALUES LESS THAN (2019),  PARTITION part2 VALUES LESS THAN (2020),  PARTITION part3 VALUES LESS THAN (2021),  PARTITION part4 VALUES LESS THAN (2022),  PARTITION part5 VALUES LESS THAN (MAXVALUE)) ;
 
 SET SQL_MODE = '';

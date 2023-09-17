@@ -104,7 +104,7 @@ Running `docker exec -i php_8.2 composer test` will execute the *some* unit test
 
 - Delivery
     - [x] ~~Create a Tag for MVP~~, and more for incremental development
-    - [ ] Write SQL queries for reporting
+    - [x] ~~Write SQL queries for reporting~~
     - [x] ~~Export Postman queries for each routes~~
     - [x] ~~Prepare a script to fill database with some content (operators, streets, zones)~~
     - [x] ~~Update Readme~~
